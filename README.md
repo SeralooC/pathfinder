@@ -78,12 +78,56 @@ Este documento contém a especificação do projeto do banco de dados <nome do p
     alguns membros da carona se sentirem na vontade de ajudar.
 
 #### 5.2 Descrição dos dados 
-    LOGIN: campo que armazena dados necessários para efetuar o login no sistema, como nome de usuário e senha.
-    PESSOA: campo que armazena informações de identificação e formas de comunicação da pessoa, incluindo nome, telefone, email e endereço.
-    CARONA: campo que armazena informações relacionadas a uma carona, como local de partida, local de chegada, horário de partida, horário de chegada e veículo utilizado na carona.
-    VEICULO: campo que contém informações sobre os veículos registrados por uma pessoa, incluindo atributos como cor, número da placa, número de assentos, marca, data de fabricação e descrição do tipo de veículo.
-    AVALIACAO: campo que relaciona uma pessoa com uma carona e possibilita a avaliação entre as pessoas que participaram da carona. Esse campo pode incluir atributos como nota, comentário e data da avaliação.
+    LOGIN_PESSOA: Tabela que armazena dados necessários para efetuar o login no sistema e formas de comunicação da pessoa incluindo nome, senha, telefone, email e endereço.
+    - Nome: Campo varchar(127) que armazena o nome.
+    - Telefone: Campo integer que armazena o número de telefone.
+    - Senha: Campo varchar(127) que armazena os caracteres referentes à senha.
+    - Email: Campo varchar(127) que armazena o email do usuário.
 
+    CARONA: Tabela que armazena informações relacionadas a uma carona, como local de partida, local de chegada, horário de partida, horário de chegada e veículo utilizado na carona.
+    - Local_saida: Campo point que armazena as coordenadas do local de saida da pessoa que está oferecendo carona.
+    - Local_chegada: Campo point que armazena as coordenadas do local onde irá finalizar a carona.
+    - Horario_saida: Campo timestamp que armazena data e horário que o carro sai do local de saida.
+    - Horario_chegada: Campo timestamp que armazena data e horário que o carro chega do local de destino.
+    - id_veiculo: Campo integer que armazena o número do ID da tabela VEICULO.
+    - Assentos: Campo smallint que armazena o número de assentos livres para carona do veículo.
+    
+    VEICULO: Tabela que contém informações sobre os veículos registrados por uma pessoa.
+    - Placa: Campo char(7) que armazena a sequência de número e letras que formam a placa de identificação do carro.
+    - id_dono: Campo integer que armazena o ID referente ao dono do veículo da tabela LOGIN_PESSOA.
+    - id_tipo: Campo integer que armazena o ID referente ao tipo de veículo da tabela TIPO_VEICULO.
+    
+    AVALIACAO: Tabela que relaciona uma pessoa com uma carona e possibilita a avaliação entre as pessoas que participaram da carona. Esse campo pode incluir atributos como nota, comentário e data da avaliação.
+    - Nota: Campo smallint que armazena a nota deferida entre dois usuários.
+    - Comentario: Campo text que armazena o cometário feito pelo usuário na avaliação.
+    - Data_avaliacao: Campo timestamp que armazena data e hora que foi feita a avaliação.
+    - id_avaliador: Campo integer que armazena o ID referente à quem avaliou outro usuário.
+    - id_avaliado: Campo integer que armazena o ID referente à quem foi avaliado por outro usuário
+
+    PARTICIPANTE_CARONA: Tabela que tem como função armazenar o ID da carona para usos futuros.
+    - id_carona: Campo integer que armazena o ID referente à CARONA.
+
+    TIPO_VEICULO: Tabela que armazena dados sobre a especificação do veículo.
+    - Descricao: Campo varchar(127) que contém a descrição em texto do veículo.
+    - Max_assentos: Campo integer que armazena a quantidade total de assentos do veículo.
+
+    RUA: Tabela que armazena os dados das ruas.
+    - Logradouro: Campo varchar(127) que armazena o nome da rua.
+    - Local_inicio: Campo point que contém os pontos do inicio da rua.
+    - Local_fim: Campo point que contém os pontos do final da rua.
+    - id_bairro: Campo integer que armazena o ID referente ao BAIRRO.
+    
+    BAIRRO:
+    - Nome: Campo varchar(127) que armazena o nome do bairro.
+    - id_cidade: Campo integer que armazena o ID referente à CIDADE.
+    
+    CIDADE:
+    - Nome: Campo varchar(127) que armazena o nome do bairro.
+    - id_estado: Campo integer que armazena o ID referente ao ESTADO.
+    
+    ESTADO:
+    - Nome: Campo varchar(127) que armazena o nome do bairro.
+    
 
 ### 6	MODELO LÓGICO<br>
 ![Alt text](./src/modelo_logico.png)   
@@ -167,7 +211,7 @@ values
 (1,1,5),
 (2,5,1);
 
-insert into avaliacao (id, comentario, nota, data_avaliacao)
+insert into avaliacao (id, comentario, nota)
 values
 (1,'paia',2,'2022-03-15'),
 (2,'maneirin',5,'2021-09-28'),
